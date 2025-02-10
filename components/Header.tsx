@@ -7,7 +7,7 @@ import { use } from "react";
 function Header() {
 
   const { setIsMobileNavOpen } = use(NavigationContext);
-  console.log(setIsMobileNavOpen);
+  // console.log(setIsMobileNavOpen);
 
   return (
     <header className="border-b border-gray-200/50 bg-white/80 backdrop-blur-xl sticky top-0 z-50">
