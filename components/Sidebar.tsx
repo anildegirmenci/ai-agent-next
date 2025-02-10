@@ -4,14 +4,24 @@ import { useRouter } from "next/navigation";
 import { use } from "react";
 import { Button } from "./ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 
 export default function Sidebar() {
   const router = useRouter();
   const { isMobileNavOpen, closeMobileNav } = use(NavigationContext); // This is the hook that we created in the NavigationProvider.tsx file
+  const createChat = useMutation(api.chats.createChat);
+
   const handleClick = () => {
     closeMobileNav();
   };
+
+  const handleNewChat = async () => {
+    const chatId = await createChat({ title: "New Chat" });
+    router.push(`/dashboard/chats/${chatId}`);
+    closeMobileNav();
+  }
 
   return (
     <>
@@ -31,7 +41,7 @@ export default function Sidebar() {
       >
         <div className="p-4 border-b border-gray-200/50">
           <Button
-            // onClick={handleNewChat}
+            onClick={handleNewChat}
             className="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-200/50 shadow-sm hover:shadow transition-all duration-200"
           >
             <PlusIcon className="mr-2 h-4 w-4" /> New Chat
