@@ -12,8 +12,11 @@ export default function Sidebar() {
   const router = useRouter();
   const { isMobileNavOpen, closeMobileNav } = use(NavigationContext); // This is the hook that we created in the NavigationProvider.tsx file
   const createChat = useMutation(api.chats.createChat);
+  const deleteChat = useMutation(api.chats.deleteChat);
 
   const handleClick = () => {
+    //Todo route the chat ID page
+    //router.push etc
     closeMobileNav();
   };
 
@@ -21,6 +24,10 @@ export default function Sidebar() {
     const chatId = await createChat({ title: "New Chat" });
     router.push(`/dashboard/chats/${chatId}`);
     closeMobileNav();
+  }
+
+  const handleDeleteChat = async () => {
+    
   }
 
   return (
@@ -49,9 +56,9 @@ export default function Sidebar() {
         </div>
 
         <div className="flex-1 overflow-y-auto space-y-2.5 p-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-          {/* {chats?.map((chat) => (
+          {chats?.map((chat) => (
             <ChatRow key={chat._id} chat={chat} onDelete={handleDeleteChat} />
-          ))} */}
+          ))}
         </div>
       </div>
     </>

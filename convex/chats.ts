@@ -10,7 +10,8 @@ export const createChat = mutation({
         if (!identity) {
             throw new Error('Unauthenticated');
         }
-
+        
+        //Protected with convex token
         const chat = await ctx.db.insert("chats", {
             title: args.title,
             userId: identity.subject,
