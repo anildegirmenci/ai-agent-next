@@ -4,13 +4,16 @@ import { useRouter } from "next/navigation";
 import { use } from "react";
 import { Button } from "./ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import ChatRow from "./ChatRow";
 
 
 export default function Sidebar() {
   const router = useRouter();
   const { isMobileNavOpen, closeMobileNav } = use(NavigationContext); // This is the hook that we created in the NavigationProvider.tsx file
+  const chats = useQuery(api.chats.listChats);
   const createChat = useMutation(api.chats.createChat);
   const deleteChat = useMutation(api.chats.deleteChat);
 
@@ -26,8 +29,11 @@ export default function Sidebar() {
     closeMobileNav();
   }
 
-  const handleDeleteChat = async () => {
-    
+  const handleDeleteChat = async (id: Id<"chats">) => {
+    await deleteChat({ id });
+    if(window.location.pathname.includes(id)){
+      router.push("/dashboard");
+    }
   }
 
   return (
